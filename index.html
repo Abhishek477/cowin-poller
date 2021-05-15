@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoWin-Alert</title>
+</head>
+<style>
+    .timeBox{
+        width: 50vw;
+        margin: 15px;
+        padding: 15px;
+        border: 2px dashed #DDDDDD;
+    }
+</style>
+<body>
+    
+    <div id="root" style="display: flex; flex-direction: row;">
+        <div id="T" class="timeBox">
+            <h2>T&nbsp;<span id="Ts"></span></h2>
+        </div>
+        <div id="T7" class="timeBox">
+            <h2>T+7&nbsp;<span id="T7s"></span></h2>
+        </div>
+    </div>
+
+</body>
+<script>
+    let pingPong = (date, id) => {
+        let delta = 2;
+        let till = 60;
+
+        let looper = setInterval(async () => {
+        let res = await fetch(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=831001&date=${date}`);
+        let data = await res.json();
+
+        let pTag = document.createElement('p');
+        pTag.innerHTML = `<p>${JSON.stringify(data.centers.filter(c => c.name === 'Loyla School')[0]?.sessions.filter(s => s.available_capacity > 0)) || 'No Sessions available.'}</p>`;
+
+        document.getElementById(id).appendChild(pTag);
+    }, delta * 60 * 1000);
+
+        setTimeout(() => {
+            alert(`Polling over for ${date} (${till} mins.)`);
+            clearInterval(looper);
+        }, till * 60 * 1000);
+    }
+
+    let T = '14-05-2021';
+    let T7 = '21-05-2021';
+
+    document.getElementById('Ts').innerHTML = `[${T}]`;
+    document.getElementById('T7s').innerHTML = `[${T7}]`;
+    
+    pingPong(T, 'T');
+    pingPong(T7, 'T7');
+</script>
+</html>
