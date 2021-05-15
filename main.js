@@ -2,7 +2,8 @@ const DELTA = 2; //Minutes
 const LIMIT = 60; //Minutes
 const DELIMITER = "|";
 
-document.querySelector("#countdown").textContent = `${DELTA} mins.`;
+document.querySelector("#countdowndelta").textContent = `${DELTA} mins.`;
+document.querySelector("#countdownlimit").textContent = `${LIMIT} mins.`;
 
 const pingPongInit = (pinCode, center, dates) => {
   if (
@@ -27,7 +28,7 @@ const pingPongInit = (pinCode, center, dates) => {
 };
 
 const pingPong = (pinCode, center, date, id) => {
-  display = document.querySelector("#countdown");
+  display = document.querySelector("#countdownlimit");
   startTimer(LIMIT * 60, display);
 
   let looper = setInterval(async () => {
