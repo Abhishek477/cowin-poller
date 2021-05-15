@@ -1,59 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CoWin-Alert</title>
-</head>
-<style>
-    .timeBox{
-        width: 50vw;
-        margin: 15px;
-        padding: 15px;
-        border: 2px dashed #DDDDDD;
-    }
-</style>
-<body>
-    
-    <div id="root" style="display: flex; flex-direction: row;">
-        <div id="T" class="timeBox">
-            <h2>T&nbsp;<span id="Ts"></span></h2>
+    <meta name="theme-color" content="#222831" />
+  </head>
+
+  <link href="main.css" rel="stylesheet" type="text/css" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap"
+    rel="stylesheet"
+  />
+
+  <body>
+    <nav class="app-nav">
+      <div class="app-name">CoWin Poller</div>
+      <div id="countdown" class="app-timer"></div>
+    </nav>
+
+    <div class="formBox">
+      <div class="form">
+        <span class="formPin">Form T</span>
+        <div class="KrooTextField">
+          <span class="TextFieldLabel">Pin Code</span>
+          <input
+            type="number"
+            maxlength="6"
+            class="TextFieldInput"
+            id="pinCode"
+            value="831001"
+          />
         </div>
-        <div id="T7" class="timeBox">
-            <h2>T+7&nbsp;<span id="T7s"></span></h2>
+        <div class="KrooTextField">
+          <span class="TextFieldLabel">Center Name</span>
+          <input
+            type="text"
+            class="TextFieldInput"
+            id="center"
+            value="Loyla School"
+          />
         </div>
+        <div class="KrooTextField">
+          <span class="TextFieldLabel">Date (T)</span>
+          <input
+            type="text"
+            class="TextFieldInput"
+            id="dateT"
+            style="width: 25vw"
+            value="14-05-2021|21-05-2021"
+          />
+        </div>
+        <button
+          onclick="pingPongInit('831001', 'Loyla School', '14-05-2021|21-05-2021')"
+          class="poll-btn poll-btn-set"
+        >
+          Poll 14-05-2021
+        </button>
+        <button
+          onclick="pingPongInit(document.getElementById('pinCode').value, document.getElementById('center').value, document.getElementById('dateT').value)"
+          class="poll-btn"
+        >
+          Poll T
+        </button>
+
+        <!-- <div class="form-action"></div> -->
+      </div>
     </div>
 
-</body>
-<script>
-    let pingPong = (date, id) => {
-        let delta = 2;
-        let till = 60;
+    <div id="root">
+      <div id="T" class="timeBox">
+        <div class="boxH">T&nbsp;<span id="Ts"></span></div>
+        <div class="boxC">
+          <p>
+            [{"session_id":"b709dd8d-d30e-43ba-8a3d-5efed5c8a954","date":"17-05-2021","available_capacity":1,"min_age_limit":18,"vaccine":"COVISHIELD","slots":["09:00AM-11:00AM","11:00AM-01:00PM","01:00PM-03:00PM","03:00PM-06:00PM"],"available_capacity_dose1":0,"available_capacity_dose2":1}]
+          </p>
+          <p>
+            [{"session_id":"b709dd8d-d30e-43ba-8a3d-5efed5c8a954","date":"17-05-2021","available_capacity":1,"min_age_limit":18,"vaccine":"COVISHIELD","slots":["09:00AM-11:00AM","11:00AM-01:00PM","01:00PM-03:00PM","03:00PM-06:00PM"],"available_capacity_dose1":0,"available_capacity_dose2":1}]
+          </p>
+        </div>
+      </div>
+      <div id="T7" class="timeBox">
+        <div class="boxH">T+7&nbsp;<span id="T7s"></span></div>
+        <div class="boxC">
+          <p>No Sessions available.</p>
+          <p>No Sessions available.</p>
+        </div>
+      </div>
+    </div>
 
-        let looper = setInterval(async () => {
-        let res = await fetch(`https://cdn-api.co-vin.in/api/v2/appointment/sessions/public/calendarByPin?pincode=831001&date=${date}`);
-        let data = await res.json();
-
-        let pTag = document.createElement('p');
-        pTag.innerHTML = `<p>${JSON.stringify(data.centers.filter(c => c.name === 'Loyla School')[0]?.sessions.filter(s => s.available_capacity > 0)) || 'No Sessions available.'}</p>`;
-
-        document.getElementById(id).appendChild(pTag);
-    }, delta * 60 * 1000);
-
-        setTimeout(() => {
-            alert(`Polling over for ${date} (${till} mins.)`);
-            clearInterval(looper);
-        }, till * 60 * 1000);
-    }
-
-    let T = '14-05-2021';
-    let T7 = '21-05-2021';
-
-    document.getElementById('Ts').innerHTML = `[${T}]`;
-    document.getElementById('T7s').innerHTML = `[${T7}]`;
-    
-    pingPong(T, 'T');
-    pingPong(T7, 'T7');
-</script>
+    <div class="credits">KRoo</div>
+  </body>
+  <script type="text/javascript" src="main.js"></script>
 </html>
