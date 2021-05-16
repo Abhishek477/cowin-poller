@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#00adb5" />
+    <title>Metadata Extractor</title>
+  </head>
+
+  <style>
+    table {
+      width: 100%;
+    }
+    table,
+    th,
+    td {
+      border: 1px solid black;
+      border-collapse: collapse;
+    }
+    th,
+    td {
+      padding: 15px;
+      text-align: left;
+    }
+    tr:nth-child(even) {
+      background-color: #eee;
+    }
+    tr:nth-child(odd) {
+      background-color: #fff;
+    }
+    th {
+      background-color: black;
+      color: white;
+    }
+  </style>
+
+  <body>
+    <div>
+      <h3>State List</h3>
+      <table id="states-grid">
+        <tbody id="states">
+          <tr>
+            <th>State ID</th>
+            <th>State Name</th>
+          </tr>
+        </tbody>
+      </table>
+
+      <h3>District List</h3>
+      <table id="districts-grid">
+        <tbody id="districts">
+          <tr>
+            <th>District ID</th>
+            <th>District Name</th>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script type="text/javascript" src="metadata-extractor.js"></script>
+</html>
